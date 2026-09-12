@@ -3,136 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="県水通商株式会社の営業・顧客管理システム（顧客管理）"
-    />
-    <title>顧客管理 | 県水通商株式会社</title>
+    <meta name="description" content="県水通商株式会社の営業管理システム" />
+    <title>営業管理システム | 県水通商株式会社</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#" aria-label="顧客一覧へ戻る">
-        <span class="brand-mark" aria-hidden="true">県</span>
-        <span>
-          <strong>県水通商株式会社</strong>
-          <small>営業・顧客管理システム</small>
-        </span>
-      </a>
-      <div class="header-title">
-        <span>顧客管理</span>
-        <small>Customer Management</small>
-      </div>
+      <a class="brand" href="#customers" aria-label="顧客管理へ戻る"><span class="brand-mark" aria-hidden="true">県</span><span><strong>県水通商株式会社</strong><small>営業管理システム</small></span></a>
+      <nav class="main-nav" aria-label="主要メニュー">
+        <button type="button" data-view="customers">顧客管理</button>
+        <button type="button" data-view="products">商品管理</button>
+        <button type="button" data-view="quotations">見積管理</button>
+      </nav>
     </header>
 
     <main class="page-shell">
-      <section id="customer-list-view" aria-labelledby="list-title">
-        <div class="page-heading">
-          <div>
-            <p class="eyebrow">CUSTOMERS</p>
-            <h1 id="list-title">顧客一覧</h1>
-            <p>お取引先の情報を確認・管理できます。</p>
-          </div>
-          <button class="primary-button" type="button" disabled title="この画面は閲覧用のデモです">
-            ＋ 新規顧客登録
-          </button>
-        </div>
-
-        <div class="list-toolbar">
-          <label class="search-field">
-            <span class="sr-only">顧客を検索</span>
-            <span aria-hidden="true">⌕</span>
-            <input id="customer-search" type="search" placeholder="会社名・担当者名・顧客番号で検索" />
-          </label>
-          <p id="customer-count" class="customer-count" aria-live="polite"></p>
-        </div>
-
-        <div class="table-card">
-          <div class="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">顧客番号</th>
-                  <th scope="col">会社名称</th>
-                  <th scope="col">顧客タイプ</th>
-                  <th scope="col">連絡担当者</th>
-                  <th scope="col">電話</th>
-                  <th scope="col">メール</th>
-                  <th scope="col">主な取扱製品</th>
-                  <th scope="col">状況</th>
-                  <th scope="col"><span class="sr-only">詳細を表示</span></th>
-                </tr>
-              </thead>
-              <tbody id="customer-table-body"></tbody>
-            </table>
-          </div>
-          <p id="empty-state" class="empty-state" hidden>該当する顧客は見つかりませんでした。</p>
-        </div>
+      <section id="customers-view" class="app-view" aria-labelledby="customers-title">
+        <div class="page-heading"><div><p class="eyebrow">CUSTOMERS</p><h1 id="customers-title">顧客管理</h1><p>お取引先の情報と見積履歴を確認できます。</p></div></div>
+        <div class="list-toolbar"><label class="search-field"><span aria-hidden="true">⌕</span><span class="sr-only">顧客を検索</span><input id="customer-search" type="search" placeholder="会社名・担当者名・顧客番号で検索" /></label><p id="customer-count" class="item-count" aria-live="polite"></p></div>
+        <div class="table-card"><div class="table-scroll"><table><thead><tr><th>顧客番号</th><th>会社名称</th><th>顧客タイプ</th><th>連絡担当者</th><th>電話</th><th>メール</th><th>主な取扱商品</th><th>状況</th><th><span class="sr-only">詳細</span></th></tr></thead><tbody id="customer-table-body"></tbody></table></div><p id="customer-empty" class="empty-state" hidden>該当する顧客は見つかりませんでした。</p></div>
       </section>
 
-      <section id="customer-detail-view" hidden aria-labelledby="detail-title">
-        <button id="back-to-list" class="back-button" type="button">← 顧客一覧へ戻る</button>
+      <section id="customer-detail-view" class="app-view" hidden aria-labelledby="customer-detail-title">
+        <button id="back-to-customers" class="back-button" type="button">← 顧客一覧へ戻る</button>
+        <div class="detail-hero"><div><p class="eyebrow">CUSTOMER DETAIL</p><div class="detail-title-row"><h1 id="customer-detail-title"></h1><span id="customer-detail-status"></span></div><p id="customer-detail-number" class="customer-number"></p></div></div>
+        <section class="detail-card"><div class="section-heading"><div><p class="eyebrow">PROFILE</p><h2>顧客基本情報</h2></div></div><dl id="customer-profile" class="profile-grid"></dl></section>
+        <section class="detail-card"><div class="section-heading"><div><p class="eyebrow">QUOTATION HISTORY</p><h2>見積履歴</h2></div><button id="create-quote-for-customer" class="secondary-button" type="button">この顧客の見積を作成</button></div><div class="table-scroll"><table class="detail-table"><thead><tr><th>見積番号</th><th>見積日</th><th>商品</th><th>数量</th><th>単価</th><th>金額</th><th>ステータス</th></tr></thead><tbody id="customer-quote-body"></tbody></table></div></section>
+        <section class="detail-card"><div class="section-heading"><div><p class="eyebrow">FOLLOW-UP RECORDS</p><h2>フォローアップ記録</h2></div></div><div id="follow-up-list" class="follow-up-list"></div></section>
+      </section>
 
-        <div class="detail-hero">
-          <div>
-            <p class="eyebrow">CUSTOMER DETAIL</p>
-            <div class="detail-title-row">
-              <h1 id="detail-title"></h1>
-              <span id="detail-status"></span>
-            </div>
-            <p id="detail-number" class="customer-number"></p>
-          </div>
-          <button class="secondary-button" type="button" disabled title="この画面は閲覧用のデモです">編集</button>
-        </div>
+      <section id="products-view" class="app-view" hidden aria-labelledby="products-title">
+        <div class="page-heading"><div><p class="eyebrow">PRODUCTS</p><h1 id="products-title">商品管理</h1><p>まぐろ加工品の商品仕様と標準単価を管理します。</p></div></div>
+        <div class="list-toolbar"><label class="search-field"><span aria-hidden="true">⌕</span><span class="sr-only">商品を検索</span><input id="product-search" type="search" placeholder="商品名・商品コード・カテゴリーで検索" /></label><p id="product-count" class="item-count"></p></div>
+        <div class="table-card"><div class="table-scroll"><table><thead><tr><th>商品コード</th><th>商品名</th><th>カテゴリー</th><th>内容量</th><th>荷姿</th><th>ケース入数</th><th>保存方法</th><th>標準単価</th><th>商品説明</th></tr></thead><tbody id="product-table-body"></tbody></table></div></div>
+        <section class="detail-card product-spec"><div class="section-heading"><div><p class="eyebrow">PRODUCT SPECIFICATION</p><h2>商品仕様</h2></div></div><p id="product-spec-message" class="muted-message">一覧から商品を選択すると、原材料・賞味期限・備考を確認できます。</p><dl id="product-profile" class="profile-grid" hidden></dl></section>
+      </section>
 
-        <section class="detail-card" aria-labelledby="profile-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">PROFILE</p>
-              <h2 id="profile-title">顧客基本情報</h2>
-            </div>
-          </div>
-          <dl id="customer-profile" class="profile-grid"></dl>
-        </section>
-
-        <section class="detail-card" aria-labelledby="quote-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">QUOTATION HISTORY</p>
-              <h2 id="quote-title">見積履歴</h2>
-            </div>
-          </div>
-          <div class="table-scroll">
-            <table class="detail-table">
-              <thead>
-                <tr>
-                  <th scope="col">見積番号</th>
-                  <th scope="col">日付</th>
-                  <th scope="col">製品</th>
-                  <th scope="col">数量</th>
-                  <th scope="col">単価</th>
-                  <th scope="col">合計金額</th>
-                  <th scope="col">状況</th>
-                </tr>
-              </thead>
-              <tbody id="quote-table-body"></tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="detail-card" aria-labelledby="follow-up-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">FOLLOW-UP RECORDS</p>
-              <h2 id="follow-up-title">フォローアップ記録</h2>
-            </div>
-          </div>
-          <div id="follow-up-list" class="follow-up-list"></div>
-        </section>
+      <section id="quotations-view" class="app-view" hidden aria-labelledby="quotations-title">
+        <div class="page-heading"><div><p class="eyebrow">QUOTATIONS</p><h1 id="quotations-title">見積管理</h1><p>顧客と商品を選択して、見積を作成・確認できます。</p></div><button id="show-quote-form" class="primary-button" type="button">＋ 新規見積作成</button></div>
+        <section id="quote-form-card" class="detail-card" hidden aria-labelledby="quote-form-title"><div class="section-heading"><div><p class="eyebrow">NEW QUOTATION</p><h2 id="quote-form-title">新規見積作成</h2></div></div><form id="quote-form" class="quote-form"><label>見積番号<input id="quote-number" required /></label><label>見積日<input id="quote-date" type="date" required /></label><label>顧客<select id="quote-customer" required></select></label><label>商品<select id="quote-product" required></select></label><label>数量<input id="quote-quantity" type="number" min="1" value="1" required /></label><label>単価（円）<input id="quote-price" type="number" min="0" required /></label><label>金額（円）<output id="quote-total">¥0</output></label><label>ステータス<select id="quote-status" required><option>下書き</option><option>提出済み</option><option>商談中</option><option>受注</option><option>失注</option></select></label><label class="form-wide">備考<textarea id="quote-notes" rows="2" placeholder="納品条件などを入力"></textarea></label><div class="form-actions form-wide"><button id="cancel-quote-form" class="text-button" type="button">キャンセル</button><button class="primary-button" type="submit">見積を登録</button></div></form></section>
+        <div class="list-toolbar quotation-toolbar"><label class="search-field"><span aria-hidden="true">⌕</span><span class="sr-only">見積を検索</span><input id="quotation-search" type="search" placeholder="見積番号・顧客名・商品名で検索" /></label><p id="quotation-count" class="item-count"></p></div>
+        <div class="table-card"><div class="table-scroll"><table><thead><tr><th>見積番号</th><th>見積日</th><th>顧客</th><th>商品</th><th>数量</th><th>単価</th><th>金額</th><th>備考</th><th>ステータス</th></tr></thead><tbody id="quotation-table-body"></tbody></table></div><p id="quotation-empty" class="empty-state" hidden>該当する見積はありません。</p></div>
       </section>
     </main>
-
-    <footer>© 県水通商株式会社　営業・顧客管理システム</footer>
-    <script src="app.js"></script>
+    <footer>© 県水通商株式会社　営業管理システム</footer><script src="app.js"></script>
   </body>
 </html>
