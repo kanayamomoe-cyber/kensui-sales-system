@@ -15,6 +15,7 @@
         <button type="button" data-view="products">商品管理</button>
         <button type="button" data-view="quotations">見積管理</button>
         <button type="button" data-view="orders">受注管理</button>
+        <button type="button" data-view="shipments">出荷管理</button>
       </nav>
     </header>
 
@@ -52,7 +53,21 @@
         <div class="page-heading"><div><p class="eyebrow">ORDERS</p><h1 id="orders-title">受注管理</h1><p>見積から登録した受注と納期・進捗を管理します。</p></div><button id="show-order-form" class="primary-button" type="button">＋ 新規受注作成</button></div>
         <section id="order-form-card" class="detail-card" hidden aria-labelledby="order-form-title"><div class="section-heading"><div><p class="eyebrow">NEW ORDER</p><h2 id="order-form-title">新規受注作成</h2></div></div><form id="order-form" class="quote-form"><label>受注番号<input id="order-number" required /></label><label>受注日<input id="order-date" type="date" required /></label><label>顧客<select id="order-customer" required></select></label><label>商品<select id="order-product" required></select></label><label>数量<input id="order-quantity" type="number" min="1" value="1" required /></label><label>単価（円）<input id="order-price" type="number" min="0" required /></label><label>金額（円）<output id="order-total">¥0</output></label><label>納期<input id="order-delivery-date" type="date" /></label><label>ステータス<select id="order-status" required><option>受注</option><option>確認中</option><option>出荷準備中</option><option>出荷済み</option><option>キャンセル</option></select></label><label>元見積番号<input id="order-quotation-no" readonly placeholder="見積から登録時に設定" /></label><label class="form-wide">備考<textarea id="order-notes" rows="2" placeholder="納品条件などを入力"></textarea></label><div class="form-actions form-wide"><button id="cancel-order-form" class="text-button" type="button">キャンセル</button><button class="primary-button" type="submit">受注を登録</button></div></form></section>
         <div class="list-toolbar quotation-toolbar"><label class="search-field"><span aria-hidden="true">⌕</span><span class="sr-only">受注を検索</span><input id="order-search" type="search" placeholder="受注番号・顧客名・商品名で検索" /></label><p id="order-count" class="item-count" aria-live="polite"></p></div>
-        <div class="table-card"><div class="table-scroll"><table><thead><tr><th>受注番号</th><th>受注日</th><th>顧客</th><th>商品</th><th>数量</th><th>単価</th><th>金額</th><th>納期</th><th>備考</th><th>元見積</th><th>ステータス</th></tr></thead><tbody id="order-table-body"></tbody></table></div><p id="order-empty" class="empty-state" hidden>該当する受注はありません。</p></div>
+        <div class="table-card"><div class="table-scroll"><table><thead><tr><th>受注番号</th><th>受注日</th><th>顧客</th><th>商品</th><th>数量</th><th>単価</th><th>金額</th><th>納期</th><th>備考</th><th>元見積</th><th>ステータス</th><th>操作</th></tr></thead><tbody id="order-table-body"></tbody></table></div><p id="order-empty" class="empty-state" hidden>該当する受注はありません。</p></div>
+      </section>
+
+      <section id="order-detail-view" class="app-view" hidden aria-labelledby="order-detail-title">
+        <button id="back-to-orders" class="back-button" type="button">← 受注一覧へ戻る</button>
+        <div class="detail-hero"><div><p class="eyebrow">ORDER DETAIL</p><div class="detail-title-row"><h1 id="order-detail-title"></h1><span id="order-detail-status"></span></div><p id="order-detail-meta" class="customer-number"></p></div></div>
+        <section class="detail-card"><div class="section-heading"><div><p class="eyebrow">ORDER INFORMATION</p><h2>受注情報</h2></div></div><dl id="order-profile" class="profile-grid"></dl></section>
+        <section class="detail-card"><div class="section-heading"><div><p class="eyebrow">SHIPMENT HISTORY</p><h2>出荷履歴</h2></div></div><div class="table-scroll"><table class="detail-table"><thead><tr><th>出荷番号</th><th>出荷予定日</th><th>出荷数量</th><th>出荷日</th><th>ステータス</th></tr></thead><tbody id="order-shipment-body"></tbody></table></div></section>
+      </section>
+
+      <section id="shipments-view" class="app-view" hidden aria-labelledby="shipments-title">
+        <div class="page-heading"><div><p class="eyebrow">SHIPMENTS</p><h1 id="shipments-title">出荷管理</h1><p>受注管理から登録した出荷の予定と実績を管理します。</p></div></div>
+        <section id="shipment-form-card" class="detail-card" hidden aria-labelledby="shipment-form-title"><div class="section-heading"><div><p class="eyebrow">NEW SHIPMENT</p><h2 id="shipment-form-title">出荷登録</h2></div></div><form id="shipment-form" class="quote-form"><label>出荷番号<input id="shipment-number" required readonly /></label><label>出荷予定日<input id="shipment-planned-date" type="date" required /></label><label>顧客<select id="shipment-customer" required></select></label><label>商品<select id="shipment-product" required></select></label><label>受注数量<input id="shipment-order-quantity" type="number" readonly /></label><label>出荷数量<input id="shipment-quantity" type="number" min="1" required /></label><label>出荷日<input id="shipment-date" type="date" disabled /></label><label>ステータス<select id="shipment-status" required><option>出荷準備中</option><option>出荷済み</option><option>キャンセル</option></select></label><label>元の受注番号<input id="shipment-order-no" readonly /></label><label class="form-wide">備考<textarea id="shipment-notes" rows="2" placeholder="出荷に関する備考を入力"></textarea></label><div class="form-actions form-wide"><button id="cancel-shipment-form" class="text-button" type="button">キャンセル</button><button class="primary-button" type="submit">出荷を登録</button></div></form></section>
+        <div class="list-toolbar quotation-toolbar"><label class="search-field"><span aria-hidden="true">⌕</span><span class="sr-only">出荷を検索</span><input id="shipment-search" type="search" placeholder="出荷番号・顧客名・商品名・受注番号で検索" /></label><p id="shipment-count" class="item-count" aria-live="polite"></p></div>
+        <div class="table-card"><div class="table-scroll"><table><thead><tr><th>出荷番号</th><th>出荷予定日</th><th>顧客名</th><th>商品名</th><th>受注数量</th><th>出荷数量</th><th>出荷日</th><th>ステータス</th><th>元の受注番号</th></tr></thead><tbody id="shipment-table-body"></tbody></table></div><p id="shipment-empty" class="empty-state" hidden>該当する出荷はありません。</p></div>
       </section>
     </main>
     <footer>© 県水通商株式会社　営業管理システム</footer><script src="app.js"></script>
